@@ -88,6 +88,11 @@ class Events(threading.Thread):
                     callback=pg_storage.event_callback, **kwargs
                 )
 
+                # flocab-specific: only keep events around for a week:
+                # http://take.ms/Ia9Z2
+                logger.debug("Clearing events older than 1 week...")
+                pg_storage.clear_old_events()
+
                 # When loading past events, do not call the event callback
                 # Need to do it like this instead of overriding the callable
                 # because the callable is cached in the closure of

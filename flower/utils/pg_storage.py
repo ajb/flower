@@ -89,3 +89,11 @@ def get_all_events():
             yield row[0]
     finally:
         cursor.close()
+
+
+def clear_old_events():
+    cursor = connection.cursor()
+    try:
+        cursor.execute("delete from events where time < (current_date - interval '7 days')")
+    finally:
+        cursor.close()
